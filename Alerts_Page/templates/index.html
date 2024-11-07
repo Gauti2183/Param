@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramount</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .banner {
+            background-color: darkslateblue;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 24px;
+        }
+
+        .container {
+            display: flex;
+        }
+
+        .top-container {
+            flex-direction: row;
+            height: 20%;
+        }
+
+        .top-container > div {
+            flex: 1;
+            border: 1px solid darkslateblue;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .subheading {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .count {
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .bottom-container {
+            height: 70%;
+            border: 1px solid darkslateblue;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th, td {
+            border: 1px solid darkslateblue;
+            padding: 8px;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: darkslateblue;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="banner">
+        AI Surveillance Dashboard
+    </div>
+    <div class="container top-container">
+        <div>
+            <div class="subheading">PEOPLE COUNT</div>
+            <div class="count">{{ people_count }}</div>
+        </div>
+        <div>
+            <div class="subheading">VEHICLE COUNT</div>
+            <div class="count">{{ vehicle_count }}</div>
+        </div>
+        <div>
+            <div class="subheading">ALERTS</div>
+            <div class="count">{{ num_alerts }}</div>
+        </div>
+    </div>
+    <div class="container bottom-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Time Stamp</th>
+                    <th>Reason</th>
+                    <th>Section</th>
+                    <th>Alert Image Link</th>
+                    <th>Video Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for alert in alerts %}
+                <tr>
+                    <td>{{ alert.time_stamp }}</td>
+                    <td>{{ alert.reason }}</td>
+                    <td>{{ alert.section }}</td>
+                    <td><a href="{{ alert.alert_image_link }}">Image</a></td>
+                    <td><a href="{{ alert.video_link }}">Video</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
