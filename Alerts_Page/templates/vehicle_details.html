@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Details</title>
+      <style>
+                table {
+            width: 100%;
+            height: 100%;
+            border-collapse: collapse;
+            table-layout: fixed;
+        }
+
+        th, td {
+            border: 1px solid darkslateblue;
+            padding: 8px;
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        th {
+            background-color: darkslateblue;
+            color: white;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Vehicle Entry Details</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Vehicle Type</th>
+                <th>Vehicle No</th>
+                <th>Time</th>
+                <th>Section</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in vehicle_entries %}
+            <tr>
+                <td>{{ entry.id }}</td>
+                <td>{{ entry.vehicle_type }}</td>
+
+                <td>{{ entry.vehicle_no }}</td>
+                <td>{{ entry.time }}</td>
+                <td>{{ entry.section }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
