@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, Response, request, send_file
 import sqlite3
 app = Flask(__name__)
 
@@ -107,5 +107,35 @@ def vehicle_details():
     return render_template('vehicle_details.html', vehicle_entries=vehicle_entries)
 
 
+@app.route('/<path:filename>')
+def stream_video(filename):
+    file_path = os.path.join(r"E:\_data_store_\video_files", filename)
+
+    if not os.path.exists(file_path):
+        return "File not found", 404
+
+    range_header = request.headers.get('Range', None)
+    if not range_header:
+        return send_file(file_path)
+
+    try:
+        start, end = range_header.replace("bytes=", "").split("-")
+        start = int(start)
+        file_size = os.path.getsize(file_path)
+        end = int(end) if end else file_size - 1
+        chunk_size = end - start + 1
+
+        with open(file_path, 'rb') as f:
+            f.seek(start)
+            data = f.read(chunk_size)
+
+        response = Response(data, 206, mimetype="video/mp4", content_type="video/mp4")
+        response.headers.add('Content-Range', f'bytes {start}-{end}/{file_size}')
+        response.headers.add('Accept-Ranges', 'bytes')
+        return response
+    except ValueError:
+        return "Invalid Range Header", 400
+
+
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=49150)
+    app.run(debug=True, host='0.0.0.0', port=5000)
